@@ -1,0 +1,71 @@
+<aura:component controller="APICall" implements="flexipage:availableForAllPageTypes"> 
+     <!--Setting the necessary attributes-->
+    <aura:attribute name="response" type="Map"/>
+    <aura:attribute name="ListOfCurrency" type="String[]"/>
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'EUR', 'value': 'EUR'},
+    {'label': 'USD', 'value': 'USD'},
+    {'label': 'GBP', 'value': 'GBP'},
+    {'label': 'CHF', 'value': 'CHF'},
+    {'label': 'CAD', 'value': 'CAD'},
+    {'label': 'JPY', 'value': 'JPY'}
+    ]"/>
+    <aura:attribute name="value" type="String" default="EUR"/>
+    
+    <div class="slds-m-around--medium" style="width:600px">
+        <!--Header-->
+        <div class="slds-page-header slds-page-header_vertical" role="banner">
+        	<h1 class="slds-page-header__title slds-hyphenate">Currency Converter</h1>
+        </div>
+        <b></b>
+        <div class="slds-page-header slds-page-header_vertical" role="banner">
+            <div class="slds-media__body">
+                
+                <p class="slds-page-header__title slds-hyphenate" title="foreign exchange rates">Choose your Base Currency</p>
+                
+                <b></b>
+                <lightning:radioGroup name="radioButtonGroup"
+                          label=""
+                          options="{! v.options }"
+                          value="{! v.value }"
+                          type="button"
+                          onchange="{! c.onGroup }"
+                          />
+                <div class="slds-media__body slds-page-header">
+                    <div class="slds-page-header__detail-list">
+                		<b>Selected Base Currency:</b>
+                		<p><ui:outputText class="result" aura:id="radioGroupResult" value="EUR" /></p>
+            		</div>
+                </div>
+                
+                <div  class="slds-section-title--divider" aura:id="radioGroupResult2" onclick="{! c.calloutCtrl }" label="EUR">
+                    <lightning:button variant="brand" label="Check Rates"/>
+				</div>
+                             
+            </div>
+        
+        <!--Header part close-->
+        </div>
+        <div class="slds-page-header slds-page-header_vertical">
+            <table class="slds-table slds-table--bordered">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th class="slds-is-sortable" scope="col">
+                            <span class="slds-truncate">Currencies:</span>
+                        </th>
+                        <th scope="col">
+                            <h3 class="slds-section-title--divider slds-truncate"> Date : {!v.response.date}</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.ListOfCurrency}" var="rate">
+                        <tr class="slds-hint-parent">
+                            <td  class="slds-truncate">{!rate}</td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>
